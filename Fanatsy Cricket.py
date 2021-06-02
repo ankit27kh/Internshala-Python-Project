@@ -3,12 +3,15 @@ This is the main file. This contains code generated from the game_main_window.ui
 file and modifications. Run this file to launch the Fantasy Cricket app.
 """
 
-from PyQt5 import QtCore, QtGui, QtWidgets
 import sqlite3
-from final_new_team_dialog import Ui_Dialog_new_team
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
 from final_dialog_box import Ui_dialog
 from final_evaluate_teams import Ui_evaluate_team_dialog
+from final_new_team_dialog import Ui_Dialog_new_team
 from final_open_team import Ui_open_team_dialog
+
 
 class Ui_Fantasy_Cricket_Game(object):
     def setupUi(self, Fantasy_Cricket_Game):
@@ -299,14 +302,13 @@ class Ui_Fantasy_Cricket_Game(object):
         player_data.close()
         _translate = QtCore.QCoreApplication.translate
         if self.list2.count() > 0:
-            self.points_available_label.setText(_translate("Fantasy_Cricket_Game", "{}".format(1000-total)))
+            self.points_available_label.setText(_translate("Fantasy_Cricket_Game", "{}".format(1000 - total)))
             self.points_used_label.setText(_translate("Fantasy_Cricket_Game", "{}".format(total)))
         else:
             self.points_available_label.setText(_translate("Fantasy_Cricket_Game", "1000"))
             self.points_used_label.setText(_translate("Fantasy_Cricket_Game", "0"))
         return total
-            
-    
+
     def change_ctg_count(self):
         """
         This function displays the current composition of the team, i.e. it
@@ -323,7 +325,7 @@ class Ui_Fantasy_Cricket_Game(object):
         self.bwl_num.setText(_translate("Fantasy_Cricket_Game", "{}".format(self.bwl)))
         self.ar_num.setText(_translate("Fantasy_Cricket_Game", "{}".format(self.ar)))
         self.wk_num.setText(_translate("Fantasy_Cricket_Game", "{}".format(self.wk)))
-        
+
     def show_players(self, ctg):
         """
         This function is run when any of the category radio button is selected.
@@ -349,7 +351,7 @@ class Ui_Fantasy_Cricket_Game(object):
             curplayers = player_data.cursor()
             command = "SELECT player FROM stats WHERE ctg = '{}';".format(ctg)
             curplayers.execute(command)
-            record=curplayers.fetchall()
+            record = curplayers.fetchall()
             __sortingEnabled = self.list1.isSortingEnabled()
             self.list1.setSortingEnabled(False)
             for i in range(len(record)):
@@ -362,7 +364,7 @@ class Ui_Fantasy_Cricket_Game(object):
                 if temp != []:
                     item.setFlags(QtCore.Qt.NoItemFlags)
             self.list1.setSortingEnabled(__sortingEnabled)
-            player_data.close()    
+            player_data.close()
         else:
             self.dialog_box(1)
 
@@ -380,7 +382,7 @@ class Ui_Fantasy_Cricket_Game(object):
         None.
 
         """
-        txt = action.text() # string giving the selected menu option
+        txt = action.text()  # string giving the selected menu option
         if txt == 'New Team':
             """
             If New Team is selected, a New Team Wizard from the final_new_team_dialog.py
@@ -406,7 +408,7 @@ class Ui_Fantasy_Cricket_Game(object):
         if txt == 'Save Team':
             if self.list2.count() == 11:
                 player_data = sqlite3.connect('player_database.db')
-                curplayers = player_data.cursor()   
+                curplayers = player_data.cursor()
                 try:
                     team_name = self.team_name_label.text()
                     curplayers.execute(('SELECT name FROM teams;'))
@@ -429,7 +431,7 @@ class Ui_Fantasy_Cricket_Game(object):
                 if self.team_name_change == 1:
                     self.dialog_box(3)
                 else:
-                    self.dialog_box(1) 
+                    self.dialog_box(1)
         if txt == 'Open Team':
             dialog = QtWidgets.QDialog()
             dialog.ui = Ui_open_team_dialog()
@@ -444,7 +446,7 @@ class Ui_Fantasy_Cricket_Game(object):
                     curplayers = player_data.cursor()
                     command = "SELECT players FROM teams WHERE name = '{}';".format(selected_team)
                     curplayers.execute(command)
-                    record=curplayers.fetchall()[0][0]
+                    record = curplayers.fetchall()[0][0]
                     record = record.split('///')
                     font = QtGui.QFont()
                     font.setFamily("Segoe UI")
@@ -477,7 +479,7 @@ class Ui_Fantasy_Cricket_Game(object):
             dialog.ui = Ui_evaluate_team_dialog()
             dialog.ui.setupUi(dialog)
             dialog.exec_()
-    
+
     def removelist1(self, item):
         if self.list2.count() < 11:
             ctg = self.ctg
@@ -537,8 +539,8 @@ class Ui_Fantasy_Cricket_Game(object):
             item[0].setFlags(QtCore.Qt.ItemIsEnabled)
         except:
             pass
-    
-    def dialog_box(self, dialog_number, ctg = 'none'):
+
+    def dialog_box(self, dialog_number, ctg='none'):
         dialog = QtWidgets.QDialog()
         dialog.ui = Ui_dialog()
         title = 'Error'
@@ -548,7 +550,8 @@ class Ui_Fantasy_Cricket_Game(object):
         elif dialog_number == 2:
             label = 'Team name can only contain alphanumeric characters!'
         elif dialog_number == 3:
-            label = 'Your team has {} players. Select {} more to continue.'.format(self.list2.count(), 11-self.list2.count())
+            label = 'Your team has {} players. Select {} more to continue.'.format(self.list2.count(),
+                                                                                   11 - self.list2.count())
         elif dialog_number == 4:
             label = 'Team can not have more than 11 players!'
         elif dialog_number == 5:
@@ -564,7 +567,7 @@ class Ui_Fantasy_Cricket_Game(object):
             label = 'Points used can not be more than 1000!'
         dialog.ui.setupUi(dialog, title, label)
         dialog.exec_()
-        
+
     def list2_player_details(self):
         self.bat = 0
         self.bwl = 0
@@ -579,7 +582,7 @@ class Ui_Fantasy_Cricket_Game(object):
             player_list.append(player)
             command = "SELECT * FROM match WHERE player = '{}';".format(player)
             curplayers.execute(command)
-            record=curplayers.fetchall()
+            record = curplayers.fetchall()
             for i in record[0]:
                 stats.append(i)
             command = "SELECT * FROM stats WHERE player = '{}';".format(player)
@@ -599,12 +602,13 @@ class Ui_Fantasy_Cricket_Game(object):
         player_data.close()
         return player_list
 
+
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     Fantasy_Cricket_Game = QtWidgets.QMainWindow()
     ui = Ui_Fantasy_Cricket_Game()
     ui.setupUi(Fantasy_Cricket_Game)
     Fantasy_Cricket_Game.show()
     sys.exit(app.exec_())
-

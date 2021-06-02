@@ -4,10 +4,13 @@ modifications. This file is run you select the Evaluate Team option from the
 menu.
 """
 
-from PyQt5 import QtCore, QtGui, QtWidgets
 import sqlite3
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
 import point_calculation
 from final_dialog_box import Ui_dialog
+
 
 class Ui_evaluate_team_dialog(object):
     def setupUi(self, evaluate_team_dialog):
@@ -103,7 +106,6 @@ class Ui_evaluate_team_dialog(object):
         self.calc_score_button.setObjectName("calc_score_button")
         self.verticalLayout_4.addWidget(self.calc_score_button)
 
-
         self.retranslateUi(evaluate_team_dialog)
         stylesheet = """
         QDialog {
@@ -165,7 +167,7 @@ class Ui_evaluate_team_dialog(object):
 
         """
         self.match_change = True
-    
+
     def populate_teams(self):
         """
         This function populates the team_select_dropdown with the names of the
@@ -180,13 +182,13 @@ class Ui_evaluate_team_dialog(object):
         curplayers = player_data.cursor()
         command = "SELECT name FROM teams ;"
         curplayers.execute(command)
-        record=curplayers.fetchall()
+        record = curplayers.fetchall()
         _translate = QtCore.QCoreApplication.translate
         for i in range(len(record)):
             self.team_select_dropdown.addItem("")
-            self.team_select_dropdown.setItemText(i+1, _translate("evaluate_team_dialog", "{}".format(record[i][0])))
+            self.team_select_dropdown.setItemText(i + 1, _translate("evaluate_team_dialog", "{}".format(record[i][0])))
         player_data.close()
-        
+
     def fill_player_list(self):
         """
         This function is run when you select a team from the dropdown. It shows
@@ -205,7 +207,7 @@ class Ui_evaluate_team_dialog(object):
         curplayers = player_data.cursor()
         command = "SELECT players FROM teams WHERE name = '{}';".format(selected_team)
         curplayers.execute(command)
-        record=curplayers.fetchall()[0][0]
+        record = curplayers.fetchall()[0][0]
         record = record.split('///')
         self.team_list = record
         __sortingEnabled = self.player_list.isSortingEnabled()
@@ -225,7 +227,7 @@ class Ui_evaluate_team_dialog(object):
             item.setFont(font)
         self.player_list.setSortingEnabled(__sortingEnabled)
         player_data.close()
-        
+
     def fill_scores(self):
         """
         This function is run when Calculate Score button is pressed. If both a 
@@ -255,7 +257,7 @@ class Ui_evaluate_team_dialog(object):
             self.total_points.setText(_translate("evaluate_team_dialog", "{}".format(total)))
         else:
             self.dialog_box()
-    
+
     def dialog_box(self):
         """
         This function displays a error message if Calculate Score button is
@@ -276,10 +278,10 @@ class Ui_evaluate_team_dialog(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     evaluate_team_dialog = QtWidgets.QDialog()
     ui = Ui_evaluate_team_dialog()
     ui.setupUi(evaluate_team_dialog)
     evaluate_team_dialog.show()
     sys.exit(app.exec_())
-

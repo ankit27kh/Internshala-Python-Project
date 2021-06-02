@@ -4,7 +4,9 @@ modifications. The file is run when you select the New Team option from the menu
 """
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 from final_dialog_box import Ui_dialog
+
 
 class Ui_Dialog_new_team(object):
     def setupUi(self, Dialog_new_team):
@@ -109,12 +111,13 @@ class Ui_Dialog_new_team(object):
         dialog.ui.setupUi(dialog, title, label)
         dialog.exec_()
 
+
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     Dialog_new_team = QtWidgets.QDialog()
     ui = Ui_Dialog_new_team()
     ui.setupUi(Dialog_new_team)
     Dialog_new_team.show()
     sys.exit(app.exec_())
-

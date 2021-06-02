@@ -6,6 +6,7 @@ and title which is then displayed in the dialog box.
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_dialog(object):
     def setupUi(self, dialog, title, label):
         dialog.setObjectName("dialog")
@@ -54,10 +55,10 @@ class Ui_dialog(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     dialog = QtWidgets.QDialog()
     ui = Ui_dialog()
     ui.setupUi(dialog, 'change title', 'change label')
     dialog.show()
     sys.exit(app.exec_())
-

@@ -3,9 +3,12 @@ This file is the UI code generated from the open_team.ui file with modifications
 This file is run when you select the Open Team option from the menu.
 """
 
-from PyQt5 import QtCore, QtGui, QtWidgets
 import sqlite3
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
 from final_dialog_box import Ui_dialog
+
 
 class Ui_open_team_dialog(object):
     def setupUi(self, open_team_dialog):
@@ -45,7 +48,6 @@ class Ui_open_team_dialog(object):
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
-
 
         self.retranslateUi(open_team_dialog)
         stylesheet = """
@@ -90,8 +92,8 @@ class Ui_open_team_dialog(object):
             self.selected_team = self.team_select_dropdown.currentText()
             open_team_dialog.accept()
         else:
-           self.dialog_box()
-            
+            self.dialog_box()
+
     def dialog_box(self):
         """
         This is the error message dialog displayed when no team is selected.
@@ -107,7 +109,7 @@ class Ui_open_team_dialog(object):
         title = 'Error'
         dialog.ui.setupUi(dialog, title, label)
         dialog.exec_()
-        
+
     def team_changed(self):
         """
         This function changes the state of team_change_toggle variable to
@@ -119,7 +121,7 @@ class Ui_open_team_dialog(object):
 
         """
         self.team_change_toggle = True
-        
+
     def populate_teams(self):
         """
         This function populates the team_select_dropdown with names of the teams
@@ -134,20 +136,20 @@ class Ui_open_team_dialog(object):
         curplayers = player_data.cursor()
         command = "SELECT name FROM teams ;"
         curplayers.execute(command)
-        record=curplayers.fetchall()
+        record = curplayers.fetchall()
         _translate = QtCore.QCoreApplication.translate
         for i in range(len(record)):
             self.team_select_dropdown.addItem("")
-            self.team_select_dropdown.setItemText(i+1, _translate("evaluate_team_dialog", "{}".format(record[i][0])))
+            self.team_select_dropdown.setItemText(i + 1, _translate("evaluate_team_dialog", "{}".format(record[i][0])))
         player_data.close()
 
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     open_team_dialog = QtWidgets.QDialog()
     ui = Ui_open_team_dialog()
     ui.setupUi(open_team_dialog)
     open_team_dialog.show()
     sys.exit(app.exec_())
-
